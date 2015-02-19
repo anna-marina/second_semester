@@ -1,0 +1,6 @@
+C:\Users\Анна\Documents\СПбГУ\программирование 2 семестр\first_homework\first_homework\bin\Debug\first_homework.XML
+C:\Users\Анна\Documents\СПбГУ\программирование 2 семестр\first_homework\first_homework\bin\Debug\first_homework.exe
+C:\Users\Анна\Documents\СПбГУ\программирование 2 семестр\first_homework\first_homework\bin\Debug\first_homework.pdb
+C:\Users\Анна\Documents\СПбГУ\программирование 2 семестр\first_homework\first_homework\obj\x86\Debug\first_homework.fsprojResolveAssemblyReference.cache
+C:\Users\Анна\Documents\СПбГУ\программирование 2 семестр\first_homework\first_homework\obj\x86\Debug\first_homework.exe
+C:\Users\Анна\Documents\СПбГУ\программирование 2 семестр\first_homework\first_homework\obj\x86\Debug\first_homework.pdb
