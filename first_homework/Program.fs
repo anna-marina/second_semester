@@ -1,4 +1,4 @@
-﻿type peano = Zero | S of peano
+type peano = Zero | S of peano
 
 let rec add x y =
     match y with
@@ -73,6 +73,11 @@ let rec build l =
     | [] -> Nil
     | x :: l' -> insert x (build l')
 
+let rec pretty t =
+    match t with
+    | Nil -> "Leaf"
+    | Node(k, l, r) -> "Node " + (string k) + " {" + (pretty l) + "; " + (pretty r) + "}"
+
 [<EntryPoint>]
 let main args =
     let two = Zero |> S |> S
@@ -81,10 +86,16 @@ let main args =
     printfn "%i" (dec five)
     let eight = pow two three
     printfn "%i" (dec eight)
-    let t = build [1;2;3]
+    let t = build [1; 2; 3; 10; 12]
+    printfn "%s" (pretty t)
     let newt = insert 5 t
+    printfn "%s" (pretty newt)
+    let newt = remove 12 t
+    printfn "%s" (pretty newt)
     print_LCR newt
-    let newt = remove 2 t
-    print_LCR newt
+    printfn ""
+    print_CLR newt
+    printfn ""
+    print_LRC newt
     0
 
