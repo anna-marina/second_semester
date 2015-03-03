@@ -1,3 +1,4 @@
+//3 6
 type peano = Zero | S of peano
 
 let rec add x y =
