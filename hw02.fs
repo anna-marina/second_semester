@@ -1,4 +1,4 @@
-// 3 5
+// 3 6
 type 't tree = Nil | Node of 't * 't tree * 't tree //декартово произведение множеств
 
 let rec insert x t =
