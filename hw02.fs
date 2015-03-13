@@ -1,4 +1,4 @@
-// 3 6
+// 3 8
 type 't tree = Nil | Node of 't * 't tree * 't tree //декартово произведение множеств
 
 let rec insert x t =
@@ -72,12 +72,12 @@ let rec tree_fold f a t =
 let tree_sum t = tree_fold (fun x l r -> x + l + r) 0 t
 
 let opt_min a b =
-    match a, b with
-    | None, t | t, None -> t
-    | Some a, Some b -> Some (min a b)
+    match b with
+    | None -> a
+    | Some b -> min a b
 
 //18
-let tree_min t = tree_fold (fun x l r -> opt_min (opt_min (Some x) l) r) None t
+let tree_min t = tree_fold (fun x l r -> Some (opt_min (opt_min x l) r)) None t
 
 //19
 let tree_copy t = tree_fold (fun x l r -> Node (x, l ,r)) Nil t
@@ -87,27 +87,39 @@ let build l = List.fold (fun a x -> insert x a) Nil l
 [<EntryPoint>]
 let main args =
    let t = build [1.1; 2.3; 3.5; 10.0; 12.0]
+   printfn "LCR original tree"
    print_LCR t
    printfn ""
    let newt = insert 5.1 t
+   printfn "LCRinsert 5.1"
    print_LCR newt
    printfn ""
    let newt = remove 12.1 t
+   printfn "LCR remove 12.1"
    print_LCR newt
    printfn ""
+   printfn "CLR"
    print_CLR newt
    printfn ""
+   printfn "LRC"
    print_LRC newt
    printfn ""
+   printfn "horner: "
    printfn "%i" (horner 2 [1;0;1])
    printfn "%A" [1;2;3]
+   printfn "reverse"
    printfn "%A" (reverse [1;2;3])
+   printfn "multiply all elements by 3"
    printfn "%A" (map (fun x -> x * 3) [1;2;3])
+   printfn "elements > 1"
    printfn "%A" (filter(fun x -> x > 1) [1;2;3])
    let q = build [1..5]
+   printfn "multiply all elements by 2"
    printfn "%A" (pretty (tree_map (fun x -> x * 2) q))
+   printfn "sum elements"
    printfn "%A" (tree_sum q)
+   printfn "min element"
    printfn "%A" (tree_min q).Value
+   printfn "new copy tree"
    printfn "%A" (pretty (tree_copy q))
    0
-
