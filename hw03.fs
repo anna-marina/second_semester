@@ -42,16 +42,29 @@ type ListGraph(n : int) =
         member g.Size =
             size
 
+let isVertice v x = 
+    v=x
+
 (*23*)
 let fromVertice (g : IGraph) v =
-     let rec fromVerticeSet r =
-        let p = List.filter (fun u -> not (List.exists (fun t -> u = t) r)) (List.concat (List.map g.OutByEdge r))
+    let byEdgeFromSet r =
+        List.concat (List.map g.OutByEdge r)
+    let exclude exclusionPredicate list =
+        List.filter (fun u -> not (exclusionPredicate u)) list
+    let excludeAll exclusionList list =
+        exclude (fun u -> List.exists (isVertice u) exclusionList) list
+    let rec fromVerticeSet r =
+        let p = excludeAll r (byEdgeFromSet r)
         if p = [] then r else fromVerticeSet (p @ r)
-     fromVerticeSet [v]
+    fromVerticeSet [v]
 
 (*24*)
 let toVertice (g : IGraph) v =
-    List.fold (fun s i -> if List.exists (fun x -> x = v) (fromVertice g i) then i :: s else s) [] [0 .. g.Size-1]
+    let destReachableFrom x =
+        List.exists (isVertice v) (fromVertice g x)
+    let accumulateVertice acc x =
+        if destReachableFrom x then x :: acc else acc
+    List.fold accumulateVertice [] [0 .. g.Size-1]
 
 (*25*)
 type IMarkedGraph<'T> =
