@@ -1,5 +1,4 @@
 open System
-open NUnit.Framework
 
 (*20*)
 type IGraph =
@@ -71,40 +70,6 @@ let toVertice (g : IGraph) v =
     let accumulateVertice acc x =
         if destReachableFrom x then x :: acc else acc
     List.fold accumulateVertice [] (range (g.Size - 1))
-
-[<TestFixture>]
-type TestGraph () =
-    let mutable g = ListGraph (10) :> IGraph
-    do
-        g.AddEdge 0 1
-        g.AddEdge 2 3
-        g.AddEdge 1 2
-        g.AddEdge 4 5
-        g.AddEdge 6 7
-        g.AddEdge 7 8
-        g.AddEdge 8 6
-
-    [<Test>]
-    member t.``From vertex`` () =
-        let f = fromVertice g 9
-        Assert.AreEqual (List.sort f, [9])
-        let f = fromVertice g 4
-        Assert.AreEqual (List.sort f, [4;5])
-        let f = fromVertice g 0
-        Assert.AreEqual (List.sort f, [0;1;2;3])
-        let f = fromVertice g 6
-        Assert.AreEqual (List.sort f, [6;7;8])
-
-    [<Test>]
-    member t.``To vertex`` () =
-        let f = toVertice g 9
-        Assert.AreEqual (List.sort f, [9])
-        let f = toVertice g 5
-        Assert.AreEqual (List.sort f, [4;5])
-        let f = toVertice g 3
-        Assert.AreEqual (List.sort f, [0;1;2;3])
-        let f = toVertice g 6
-        Assert.AreEqual (List.sort f, [6;7;8])
 
 (*25*)
 type IMarkedGraph<'T> =
