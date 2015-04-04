@@ -57,12 +57,12 @@ type Parser (a : string []) =
                 ignore (it.MoveNext())
                 Plus (p.ParseElement())
 
+        | x when Char.IsDigit x.[0] ->
+                let r = Number (Int32.Parse x)
+                ignore (it.MoveNext())
+                r
         | x ->
-                let r =
-                    if Char.IsDigit x.[0] then
-                        Number (Int32.Parse x)
-                    else
-                        Id x
+                let r = Id x
                 ignore (it.MoveNext())
                 r
 
