@@ -217,7 +217,6 @@ let TestCalcVar s (env : string) =
 [<TestCase("2 ^2 ^3", Result="2 2 3 ^ ^")>]
 let TestToPostfix s =
     String.Join(" ", toPostfix s)
-
 [<TestCase("2 2 +", Result=4)>]
 [<TestCase("0", Result=0)>]
 [<TestCase("1 -!", Result=(-1))>]
