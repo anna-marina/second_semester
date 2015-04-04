@@ -15,7 +15,6 @@ type IList<'T> =
 
 type ConsList<'T> = Nil | Cons of 'T * ConsList<'T>
 
-(*28*)
 type AdtList<'T>() =
     let mutable c = Nil
     let mutable size = 0
@@ -89,7 +88,7 @@ type AdtList<'T>() =
                 | _, Nil -> failwith "Index out of bounds"
                 | j, Cons (v, _) when i = j -> v
                 | j, Cons (_, l) -> get (j + 1) l
-            get 0 c       
+            get 0 c
 
 (*29*)
 type ArrayList<'T>() =
@@ -148,7 +147,7 @@ let makeAdtList (l:list<'T>) =
 let makeArrayList(l:list<'T>) =
     let a = ArrayList () :> IList<'T>
     List.iter (fun x -> a.Append x) l
-    a       
+    a     
 
 [<TestFixture>]
 type ``ArrayList tests``() =
@@ -165,17 +164,13 @@ type ``ArrayList tests``() =
         a.Append 4
         Assert.AreEqual(toList a, [1;2;3;4])
     
-    [<Test>]
-    member s.``Array: Insertion`` () =
+    [<TestCase(1,4,Result=[|1;4;2;3|])>]
+    [<TestCase(0,4,Result=[|4;1;2;3|])>]
+    [<TestCase(3,4,Result=[|1;2;3;4|])>]
+    member s.``Array: Insertion`` i x =
         let a = makeArrayList [1;2;3]
-        a.Insert 1 4
-        Assert.AreEqual(toList a, [1;4;2;3])
-        let a = makeArrayList [1;2;3]
-        a.Insert 0 4
-        Assert.AreEqual(toList a, [4;1;2;3])
-        let a = makeArrayList [1;2;3]
-        a.Insert 3 4
-        Assert.AreEqual(toList a, [1;2;3;4])
+        a.Insert i x
+        toList a |> Array.ofList
 
     [<Test>]
     member s.``Array: Remove First`` () =
@@ -189,17 +184,13 @@ type ``ArrayList tests``() =
         a.RemoveLast
         Assert.AreEqual(toList a, [1;2])
 
-    [<Test>]
-    member s.``Array: Remove`` () =
+    [<TestCase(0,Result=[|2;3|])>]
+    [<TestCase(1,Result=[|1;3|])>]
+    [<TestCase(2,Result=[|1;2|])>]
+    member s.``Array: Remove`` i =
         let a = makeArrayList [1;2;3]
-        a.Remove 0
-        Assert.AreEqual(toList a, [2;3])
-        let a = makeArrayList [1;2;3]
-        a.Remove 1
-        Assert.AreEqual(toList a, [1;3])
-        let a = makeArrayList [1;2;3]
-        a.Remove 2
-        Assert.AreEqual(toList a, [1;2])
+        a.Remove i
+        toList a |> Array.ofList
 
     [<Test>]
     member s.``Array: Find`` () =
@@ -236,17 +227,13 @@ type ``AdtList tests``() =
         a.Append 4
         Assert.AreEqual(toList a, [1;2;3;4])
     
-    [<Test>]
-    member s.``ADT: Insertion`` () =
+    [<TestCase(1,4,Result=[|1;4;2;3|])>]
+    [<TestCase(0,4,Result=[|4;1;2;3|])>]
+    [<TestCase(3,4,Result=[|1;2;3;4|])>]
+    member s.``ADT: Insertion`` i x =
         let a = makeAdtList [1;2;3]
-        a.Insert 1 4
-        Assert.AreEqual(toList a, [1;4;2;3])
-        let a = makeAdtList [1;2;3]
-        a.Insert 0 4
-        Assert.AreEqual(toList a, [4;1;2;3])
-        let a = makeAdtList [1;2;3]
-        a.Insert 3 4
-        Assert.AreEqual(toList a, [1;2;3;4])
+        a.Insert i x
+        toList a |> Array.ofList
 
     [<Test>]
     member s.``ADT: Remove First`` () =
@@ -260,17 +247,13 @@ type ``AdtList tests``() =
         a.RemoveLast
         Assert.AreEqual(toList a, [1;2])
 
-    [<Test>]
-    member s.``ADT: Remove`` () =
+    [<TestCase(0,Result=[|2;3|])>]
+    [<TestCase(1,Result=[|1;3|])>]
+    [<TestCase(2,Result=[|1;2|])>]
+    member s.``ADT: Remove`` i =
         let a = makeAdtList [1;2;3]
-        a.Remove 0
-        Assert.AreEqual(toList a, [2;3])
-        let a = makeAdtList [1;2;3]
-        a.Remove 1
-        Assert.AreEqual(toList a, [1;3])
-        let a = makeAdtList [1;2;3]
-        a.Remove 2
-        Assert.AreEqual(toList a, [1;2])
+        a.Remove i
+        toList a |> Array.ofList
     
     [<Test>]
     member s.``ADT: Find`` () =
