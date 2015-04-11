@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "Syncing root certificates"
+sudo mozroots --import --sync
+
+echo "Downloading nuget"
+curl -L http://nuget.org/nuget.exe -o nuget.exe
+
+echo "Installing FAKE"
+mono nuget.exe install FAKE -OutputDirectory packages -ExcludeVersion
+chmod +x packages/FAKE/tools/FAKE.exe
+echo "Installing NUnit"
+mono nuget.exe install NUnit -OutputDirectory packages -ExcludeVersion
+mono nuget.exe Install NUnit.Runners -OutputDirectory packages -ExcludeVersion
