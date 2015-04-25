@@ -10,11 +10,9 @@ type RingBuilder(n) =
     do
         if n < 1 then failwith "Non-natural modulo"
 
-    member this.Bind(x, f) =
-        f (norm n x)
+    member this.Bind(x, f) = f (norm n x)
 
-    member this.Return(x) =
-        (norm n x)
+    member this.Return(x) = (norm n x)
 
 let ring n = RingBuilder(n)
 
@@ -27,14 +25,11 @@ type TreeBuilder () =
         | Leaf x -> f x
         | Node (l, r) -> Node (this.Bind(l, f), this.Bind(r, f))
 
-    member this.Combine(a, b) =
-        Node (a, b)
+    member this.Combine(a, b) = Node (a, b)
 
-    member this.Return(x) =
-        Leaf x
+    member this.Return(x) = Leaf x
 
-    member this.Zero() =
-        Nil
+    member this.Zero() = Nil
 
 let treework = TreeBuilder()
 
