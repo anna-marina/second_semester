@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Downloading nuget"
+curl -L http://nuget.org/nuget.exe -o nuget.exe
+
+echo "Installing FAKE"
+mono nuget.exe install FAKE -OutputDirectory packages -ExcludeVersion
+chmod +x packages/FAKE/tools/FAKE.exe
