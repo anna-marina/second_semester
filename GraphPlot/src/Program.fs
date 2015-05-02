@@ -126,9 +126,9 @@ let form = new Form(Text = "F# Windows Form",
                     Visible = true,
                     TopMost = true,
                     Width = 500,
-                    Height = 300)
+                    Height = 500)
 
-let image = new Bitmap(500, 300,
+let image = new Bitmap(500, 500,
                        Imaging.PixelFormat.Format32bppArgb)
 
 let button = new Button(Text="Plot")
@@ -139,21 +139,68 @@ input.Width <- 400
 input.Location <- new Point(300, 0)
 input.Parent <- form
 
+let xstart = new TextBox(Text="0")
+xstart.Width <- 50
+xstart.Location <- new Point(0, 50)
+xstart.Parent <- form
+
+let lxstart = new Label(Text="xmin")
+lxstart.Width <- 50
+lxstart.Location <- new Point(0, 25)
+lxstart.Parent <- form
+
+let xend = new TextBox(Text="2*pi")
+xend.Width <- 50
+xend.Location <- new Point(60, 50)
+xend.Parent <- form
+
+let lxend = new Label(Text="xmax")
+lxend.Width <- 50
+lxend.Location <- new Point(60, 25)
+lxend.Parent <- form
+
+let ystart = new TextBox(Text="-1")
+ystart.Width <- 50
+ystart.Location <- new Point(120, 50)
+ystart.Parent <- form
+
+let lystart = new Label(Text="ymin")
+lystart.Width <- 50
+lystart.Location <- new Point(120, 25)
+lystart.Parent <- form
+
+let yend = new TextBox(Text="1")
+yend.Width <- 50
+yend.Location <- new Point(180, 50)
+yend.Parent <- form
+
+let lyend = new Label(Text="ymax")
+lyend.Width <- 50
+lyend.Location <- new Point(180, 25)
+lyend.Parent <- form
+
 let plot () =
     let expr = input.Text
-    let func = (fun x -> calcvar expr [("x", x)])
+    let func = (fun x -> calcvar expr [("x", x);("pi", Math.PI);("e", Math.E)])
     let g = Graphics.FromImage(image)
     g.SmoothingMode <- 
         System.Drawing.Drawing2D.SmoothingMode.AntiAlias
     let pen = Pens.Black
     let k = 50
 
-    g.FillRectangle(Brushes.White, 0, 0, 500, 300)
+    g.FillRectangle(Brushes.White, 0, 100, 500, 400)
     for i in [0..k] do
+        let xmin = calcvar xstart.Text [("pi", Math.PI);("e", Math.E)]
+        let xmax = calcvar xend.Text [("pi", Math.PI);("e", Math.E)]
+        let ymin = calcvar ystart.Text [("pi", Math.PI);("e", Math.E)]
+        let ymax = calcvar yend.Text [("pi", Math.PI);("e", Math.E)]
         let xa = 500 / k * i
         let xb = 500 / k * (i + 1)
-        let ya = -int(func(float(i) * 2.0 * Math.PI / float(k)) * 150.0) + 150
-        let yb = -int(func(float(i + 1) * 2.0 * Math.PI / float(k)) * 150.0) + 150
+        let x1 = (xmax - xmin) * (1.0 / float(k) * float(i)) + xmin
+        let x2 = (xmax - xmin) * (1.0 / float(k) * float(i+1)) + xmin
+        let dy = ymax - ymin
+        let ya = -int((func(x1) - ymin) / dy * 150.0) + 250
+        let yb = -int((func(x2) - ymin) / dy * 150.0) + 250
         g.DrawLine(pen, xa, ya, xb, yb)
     g.Dispose()
 
